@@ -11,7 +11,18 @@ int main(void)
 	/* TODO: Implement finding the maximum value in the vector */
 	max = v[0];
 	i = 1;
+max:
+	if(v[i] <= max){
+		goto i;
+	}
 
-	(void) i;
-	(void) max;
+	max = v[i];
+
+i:
+	i++;
+	if(i < sizeof(v) / sizeof(int)) {
+		goto max;
+	}
+	printf("Maxim este %d", max);
+	return 0;
 }
