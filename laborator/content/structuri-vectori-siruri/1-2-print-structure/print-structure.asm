@@ -1,4 +1,4 @@
-%include "printf32.asm"
+%include "../utils/printf32.asm"
 
 struc stud_struct
     name: resb 32
@@ -10,6 +10,10 @@ struc stud_struct
 endstruc
 
 section .data
+    string_format db "%s", 0
+    string_endline_format db "%s", 10, 0
+    dec_format db "%d", 10, 0
+
 sample_student:
     istruc stud_struct
         at name, db 'Andrei', 0
@@ -20,12 +24,12 @@ sample_student:
         at birth_year, dw 1994
     iend
 
-format_name db "Name: %s", 10, 0
-format_surname db "Surname: %s", 10, 0
-format_age db "Age: %d", 10, 0
-format_group db "Group: %s", 10, 0
-format_gender db "Gender: %d", 10, 0
-format_year db "Birth year: %d", 10, 0
+string_name db "Name: ", 0
+string_surname db "Surname: ", 0
+string_age db "Age: ", 0
+string_group db "Group: ", 0
+string_gender db "Gender: ", 0
+string_year db "Birth year: ", 0
 
 section .text
 extern printf
@@ -34,44 +38,81 @@ main:
     push ebp
     mov ebp, esp
 
-    ; TODO: Update name, surname, birth_year, gender and age such that:
-    ; birth_year is 1993
-    ; age is 22
-    ; group is '323CA'
+    mov word [sample_student + birth_year], 1993
+    mov byte [sample_student + age], 22
 
+    lea eax, [sample_student + group + 2]
+    mov byte [eax], '3'
+
+    lea ebx, [string_name]
+    push ebx
+    push string_format
+    call printf
+    add esp, 8
     lea eax, [sample_student + name]
     push eax
-    push format_name
+    push string_endline_format
     call printf
     add esp, 8
 
+    lea ebx, [string_surname]
+    push ebx
+    push string_format
+    call printf
+    add esp, 8
     lea eax, [sample_student + surname]
     push eax
-    push format_surname
+    push string_endline_format
     call printf
     add esp, 8
 
-    movzx eax, byte [sample_student + age]
-    push eax
-    push format_age
+    lea ebx, [string_age]
+    push ebx
+    push string_format
+    call printf
+    add esp, 8
+    mov al, byte [sample_student + age]
+    xor ebx, ebx
+    mov bl, al
+    push ebx
+    push dec_format
     call printf
     add esp, 8
 
+    lea ebx, [string_group]
+    push ebx
+    push string_format
+    call printf
+    add esp, 8
     lea eax, [sample_student + group]
     push eax
-    push format_group
+    push string_endline_format
     call printf
     add esp, 8
 
-    movzx eax, byte [sample_student + gender]
-    push eax
-    push format_gender
+    lea ebx, [string_gender]
+    push ebx
+    push string_format
+    call printf
+    add esp, 8
+    mov al, byte [sample_student + gender]
+    xor ebx, ebx
+    mov bl, al
+    push ebx
+    push dec_format
     call printf
     add esp, 8
 
-    movzx eax, word [sample_student + birth_year]
-    push eax
-    push format_year
+    lea ebx, [string_year]
+    push ebx
+    push string_format
+    call printf
+    add esp, 8
+    mov ax, [sample_student + birth_year]
+    xor ebx, ebx
+    mov bx, ax
+    push ebx
+    push dec_format
     call printf
     add esp, 8
 
