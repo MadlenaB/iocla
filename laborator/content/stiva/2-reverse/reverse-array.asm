@@ -1,4 +1,4 @@
-%include "../utils/printf32.asm"
+%include "printf32.asm"
 
 %define ARRAY_LEN 7
 
@@ -15,6 +15,20 @@ main:
 
     ; TODO push the elements of the array on the stack
     ; TODO retrieve the elements (pop) from the stack into the output array
+
+    push ARRAY_LEN
+    pop ecx
+
+do_again_push:
+    push dword[input + 4 * (ecx - 1)]
+    loop do_again_push
+
+    push ARRAY_LEN
+    pop ecx
+
+do_again_pop:
+    pop dword[output + 4 * (ecx - 1)]
+    loop do_again_pop
 
     PRINTF32 `Reversed array: \n\x0`
     xor ecx, ecx
