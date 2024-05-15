@@ -10,9 +10,17 @@ main:
     mov ebp, esp
 
     ; TODO - replace below instruction with the algorithm for the Fibonacci sequence
-    sub esp, NUM_FIBO * 4
+    push 0
+    push 1
+    mov ecx, NUM_FIBO - 2
 
+calc_fibonacci:
+    mov eax, [esp]
+    add eax, [esp+4]
+    push eax
+    loop calc_fibonacci
     mov ecx, NUM_FIBO
+
 print:
     mov eax, dword [esp + (ecx - 1) * 4]
     PRINTF32 `%d \x0`, eax
