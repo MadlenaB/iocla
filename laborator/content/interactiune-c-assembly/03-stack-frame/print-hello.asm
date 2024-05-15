@@ -12,7 +12,8 @@ global print_hello
 ;   TODO: Adăugați instrucțiunea lipsă
 print_hello:
 	push ebp
-
+	; dupa ret se va executa asm_call_wrapper
+	mov ebp, esp
 	push message
 	call printf
 	add esp, 4
