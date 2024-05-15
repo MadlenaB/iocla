@@ -11,12 +11,19 @@ global main
 toupper:
     push ebp
     mov ebp, esp
+    mov eax, dword[ebp + 8]
 
-    ; TODO
-
+check_one_byte:
+    mov bl, byte[eax]
+    test bl, bl 
+    je out
+    sub bl, 0x20
+    mov byte[eax], bl
+    inc eax 
+    jmp check_one_byte
+out:
     leave
     ret
-
 main:
     push ebp
     mov ebp, esp
