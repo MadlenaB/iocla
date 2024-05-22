@@ -3,9 +3,9 @@
 
 int main(void)
 {
-	unsigned int sexy_var = 0xFEEDFACE;
-	unsigned char in_between[5];
-	char buffer[64];
+	unsigned int sexy_var = 0xFEEDFACE; // 9 octeti 
+	unsigned char in_between[5]; // 5 octeti 
+	char buffer[64]; // 64 de octeti => total 73 de octeti
 	size_t i, len;
 
 	printf("insert buffer string: ");
